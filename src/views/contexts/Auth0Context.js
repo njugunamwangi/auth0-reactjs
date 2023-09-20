@@ -14,7 +14,7 @@ export function Auth0Provider({children}) {
         async function initAuth0() {
             const auth0 = await createAuth0Client({
                 domain: 'dev-5tm58fubgv4owfb4.us.auth0.com',
-                clientId: '64ZbwBnDggCDjrXz6uBCISsULpSUXjzX'
+                clientId: 'kcoa2dnBs5D3icw3hlYjmwxLiqaxlNBT'
             })
 
             setAuth0Client(auth0)
@@ -35,7 +35,12 @@ export function Auth0Provider({children}) {
         <Auth0Context.Provider value={{
             isAuthenticated,
             user,
-            isLoading
+            isLoading,
+            login:() => auth0Client.loginWithRedirect({
+                authorizationParams: {
+                    redirect_uri: window.location.origin
+                }
+            })
         }}>
             {children}
         </Auth0Context.Provider>

@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import {useContext, useState} from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import {Auth0Context} from "./contexts/Auth0Context";
 
 const navigation = [
     { name: 'Product', href: '#' },
@@ -10,6 +11,8 @@ const navigation = [
 ]
 
 export default function Home() {
+    const auth0 = useContext(Auth0Context)
+
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
     return (
@@ -44,7 +47,7 @@ export default function Home() {
                         ))}
                     </div>
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                        <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+                        <a href="#" onClick={() => auth0.login()} className="text-sm font-semibold leading-6 text-gray-900">
                             Log in <span aria-hidden="true">&rarr;</span>
                         </a>
                     </div>
