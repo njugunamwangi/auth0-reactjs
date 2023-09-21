@@ -11,7 +11,7 @@ const navigation = [
 ]
 
 export default function Home() {
-    const {isAuthenticated, login} = useContext(Auth0Context)
+    const {isAuthenticated, login, logout, user} = useContext(Auth0Context)
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -50,20 +50,23 @@ export default function Home() {
                         {!isAuthenticated && (
                             <a
                                 href="#"
-                                onClick={() => login()}
+                                onClick={login}
                                 className="text-sm font-semibold leading-6 text-gray-900">
                                 Log in
                                 <span aria-hidden="true">&rarr;</span>
                             </a>
                         )}
-                        {isAuthenticated && (
-                            <a
-                                href="#"
-                                onClick={() => login()}
-                                className="text-sm font-semibold leading-6 text-gray-900">
-                                Log Out
-                                <span aria-hidden="true">&rarr;</span>
-                            </a>
+                        {isAuthenticated && user && (
+                            <>
+                                <p className="text-sm font-semibold leading-6 text-blue-900 mr-2">{user.name}</p>
+                                <a
+                                    href="#"
+                                    onClick={logout}
+                                    className="text-sm font-semibold leading-6 text-red-900">
+                                    Log Out
+                                    <span aria-hidden="true">&rarr;</span>
+                                </a>
+                            </>
                         )}
                     </div>
                 </nav>
