@@ -5,6 +5,7 @@ import Home from "./views/Home";
 import Users from "./views/Users";
 import {useContext} from "react";
 import {Auth0Context} from "./views/contexts/Auth0Context";
+import NotFound from "./views/core/NotFound";
 
 export default function App() {
 
@@ -18,6 +19,7 @@ export default function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/users" element={<Users />} />
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>
     );
