@@ -10,12 +10,6 @@ export function Auth0Provider({children}) {
 
     useEffect(() => {
         initAuth0()
-            .then((response) => {
-                console.log(response)
-            })
-            .catch((err) => {
-                console.error(err)
-            })
         async function initAuth0() {
             const auth0 = await createAuth0Client({
                 domain: 'dev-5tm58fubgv4owfb4.us.auth0.com',
@@ -30,7 +24,9 @@ export function Auth0Provider({children}) {
             const query = window.location.search
 
             if (query.includes("code=") && query.includes("state=")) {
-                await auth0.handleRedirectCallback()
+                try {
+                    await auth0.handleRedirectCallback()
+                } catch (err) {}
 
                 window.history.replaceState({}, document.title, "/");
             }
@@ -46,6 +42,8 @@ export function Auth0Provider({children}) {
             setIsLoading(false)
         }
     }, [])
+
+    if (isLoading) return <>Loading...</>
 
     return (
         <Auth0Context.Provider value={{
