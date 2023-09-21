@@ -4,16 +4,14 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useAuth0} from "./contexts/Auth0Context";
 import {NavLink} from "react-router-dom";
 
+const navigation = [
+    { name: 'Home', to: '/' },
+]
 
 export default function Home() {
     const {isAuthenticated, login, logout, user} = useAuth0()
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-    const navigation = [
-        { name: 'Home', to: '/' },
-        { name: 'Dashboard', to: '/dashboard' },
-    ]
 
     return (
         <div className="bg-white">
@@ -62,7 +60,12 @@ export default function Home() {
                         )}
                         {isAuthenticated && user && (
                             <>
-                                <p className="text-sm font-semibold leading-6 text-blue-900 mr-2">{user.name}</p>
+                                <NavLink
+                                    to="/dashboard"
+                                    className="text-sm font-semibold leading-6 text-blue-900 mr-2"
+                                >
+                                    {user.name}
+                                </NavLink>
                                 <a
                                     href="#"
                                     onClick={logout}
