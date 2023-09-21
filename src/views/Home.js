@@ -1,7 +1,7 @@
-import {useContext, useState} from 'react'
+import { useState} from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import {Auth0Context} from "./contexts/Auth0Context";
+import { useAuth0} from "./contexts/Auth0Context";
 
 const navigation = [
     { name: 'Product', href: '#' },
@@ -11,7 +11,7 @@ const navigation = [
 ]
 
 export default function Home() {
-    const {isAuthenticated, login, logout, user} = useContext(Auth0Context)
+    const {isAuthenticated, login, logout, user} = useAuth0()
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
