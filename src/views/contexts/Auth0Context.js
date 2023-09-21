@@ -1,7 +1,7 @@
 import {createContext, useEffect, useState} from "react";
 import {createAuth0Client} from "@auth0/auth0-spa-js";
 
-export const Auth0Context = createContext(undefined)
+export const Auth0Context = createContext()
 
 export function Auth0Provider({children}) {
     const [ isAuthenticated, setIsAuthenticated ] = useState(false)
@@ -10,14 +10,26 @@ export function Auth0Provider({children}) {
     const [ isLoading, setIsLoading ] = useState(true)
 
     useEffect(() => {
-        initAuth0()
         async function initAuth0() {
             const auth0 = await createAuth0Client({
                 domain: 'dev-5tm58fubgv4owfb4.us.auth0.com',
-                clientId: 'kcoa2dnBs5D3icw3hlYjmwxLiqaxlNBT'
+                clientId: 'kcoa2dnBs5D3icw3hlYjmwxLiqaxlNBT',
+
             })
 
             setAuth0Client(auth0)
+
+            const query = window.location.search
+
+            if (query.includes("code=") && query.includes("state=")) {
+                try {
+                    await auth0.handleRedirectCallback();
+                } catch (err) {
+                    console.error(err)
+                    alert(err)
+                }
+                window.history.replaceState({}, document.title, "/");
+            }
 
             const isAuthenticated = await auth0.isAuthenticated()
             setIsAuthenticated(isAuthenticated)
@@ -29,6 +41,15 @@ export function Auth0Provider({children}) {
 
             setIsLoading(false)
         }
+
+        initAuth0()
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+
     }, [])
 
     return (
@@ -36,7 +57,7 @@ export function Auth0Provider({children}) {
             isAuthenticated,
             user,
             isLoading,
-            login:() => auth0Client.loginWithRedirect({
+            login: () => auth0Client && auth0Client.loginWithRedirect({
                 authorizationParams: {
                     redirect_uri: window.location.origin
                 }

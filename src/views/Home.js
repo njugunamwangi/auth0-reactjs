@@ -11,7 +11,7 @@ const navigation = [
 ]
 
 export default function Home() {
-    const auth0 = useContext(Auth0Context)
+    const {isAuthenticated, login} = useContext(Auth0Context)
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -47,9 +47,24 @@ export default function Home() {
                         ))}
                     </div>
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                        <a href="#" onClick={() => auth0.login()} className="text-sm font-semibold leading-6 text-gray-900">
-                            Log in <span aria-hidden="true">&rarr;</span>
-                        </a>
+                        {!isAuthenticated && (
+                            <a
+                                href="#"
+                                onClick={() => login()}
+                                className="text-sm font-semibold leading-6 text-gray-900">
+                                Log in
+                                <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        )}
+                        {isAuthenticated && (
+                            <a
+                                href="#"
+                                onClick={() => login()}
+                                className="text-sm font-semibold leading-6 text-gray-900">
+                                Log Out
+                                <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        )}
                     </div>
                 </nav>
                 <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
@@ -87,12 +102,24 @@ export default function Home() {
                                     ))}
                                 </div>
                                 <div className="py-6">
-                                    <a
-                                        href="#"
-                                        className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                    >
-                                        Log in
-                                    </a>
+                                    {!isAuthenticated && (
+                                        <a
+                                            onClick={() => login()}
+                                            href="#"
+                                            className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                        >
+                                            Log in
+                                        </a>
+                                    )}
+                                    {!isAuthenticated && (
+                                        <a
+                                            onClick={() => login()}
+                                            href="#"
+                                            className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                        >
+                                            Log Out
+                                        </a>
+                                    )}
                                 </div>
                             </div>
                         </div>
