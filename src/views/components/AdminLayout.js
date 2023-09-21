@@ -2,16 +2,12 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {NavLink} from "react-router-dom";
+import {useAuth0} from "../contexts/Auth0Context";
 
-const user = {
-    name: 'Tom Cook',
-    email: 'tom@example.com',
-    imageUrl:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
 const navigation = [
     { name: 'Dashboard', to: '/dashboard' },
     { name: 'Users', to: '/users' },
+    { name: 'Home', to: '/' },
 ]
 const userNavigation = [
     { name: 'Your Profile', to: '/profile' },
@@ -23,10 +19,13 @@ function classNames(...classes) {
 }
 
 export default function AdminLayout({title, children}) {
-    const onSignOut = (ev) => {
-        ev.preventDefault()
 
-        console.log('Signed Out')
+    const auth0 = useAuth0()
+
+    const user = {
+        name: auth0.user.name,
+        email: auth0.user.email,
+        imageUrl: auth0.user.picture
     }
 
     return (
@@ -110,7 +109,7 @@ export default function AdminLayout({title, children}) {
                                                         <Menu.Item>
                                                             <a
                                                                 href="#"
-                                                                onClick={(ev) => onSignOut(ev)}
+                                                                onClick={auth0.logout}
                                                                 className={classNames(
                                                                     'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-500 hover:text-white'
                                                                 )}
@@ -187,7 +186,7 @@ export default function AdminLayout({title, children}) {
                                         <a
                                             href="#"
                                             className="block px-4 py-2 text-sm text-white hover:bg-gray-700 hover:text-white"
-                                            onClick={(ev) => onSignOut(ev)}
+                                            onClick={auth0.logout}
                                         >
                                             Sign Out
                                         </a>
