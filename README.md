@@ -7,13 +7,16 @@
 ## Installation
 
 - Clone the project
-``` git clone https://github.com/njugunamwangi/auth0-reactjs.git
+```bash
+git clone https://github.com/njugunamwangi/auth0-reactjs.git
 ```
 
 - Install the dependencies
-``` npm install 
+```bash
+npm install 
 ```
 
 - Run the project
-``` npm run start
+```bash
+npm run start
 ```
